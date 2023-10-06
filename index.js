@@ -9,5 +9,5 @@ let server = app.listen(3000, () => {
 
 //route setup
 app.get("/", (res, req) => {
-  req.sendFile(__dirname + "index.html");
+  req.sendFile(__dirname + "/index.html");
 });
