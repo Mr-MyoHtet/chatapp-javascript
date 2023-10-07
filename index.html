@@ -30,6 +30,7 @@
         height: 400px;
         overflow: auto;
         background: #f9f9f9;
+        border: 1px solid;
       }
 
       #output p {
@@ -63,9 +64,10 @@
         display: block;
         width: 100%;
         background: #fff;
-        border-bottom: 1px solid #eee;
+        border: 2px solid #534747;
         font-family: Nunito;
         font-size: 16px;
+        margin-bottom: 10px;
       }
 
       button {
@@ -76,6 +78,7 @@
         padding: 12px 0;
         width: 100%;
         border-radius: 0 0 2px 2px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -86,13 +89,27 @@
         <div id="output"></div>
         <div id="feedback"></div>
       </div>
-      <input type="text" placeholder="Name" id="name" />
       <input type="text" placeholder="Message" id="message" />
       <button id="send">send</button>
     </div>
 
     <script>
       const socket = io("http://localhost:4000");
+      let output = document.getElementById("output");
+      let message = document.getElementById("message");
+      let send = document.getElementById("send");
+      send.addEventListener("click", () => {
+        let data = {
+          message: message.value,
+        };
+        socket.emit("chat", data);
+      });
+      //listen event for show data
+      //index.js data accept
+      socket.on("chat", (data) => {
+        output.innerHTML += `<p><strong>${data.message}</strong></p>`;
+        message.value = "";
+      });
     </script>
   </body>
 </html>
